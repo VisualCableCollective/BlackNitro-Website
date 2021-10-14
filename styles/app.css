@@ -24,3 +24,35 @@
     background-color: rgba(31, 31, 31, 0.8);
     backdrop-filter: blur(20px);
 }
+
+.bg-blur-max {
+    backdrop-filter: blur(100px);
+}
+
+.login-wrapper {
+    background-color: rgba(13,13,13,0.6);
+}
+
+.login-input {
+    background-color: rgba(56, 56, 56, 0.8);
+    border-color: rgb(89, 89, 89);
+    border-width: 2px;
+    transition: color;
+    transition-duration: 100ms;
+}
+
+.login-input:focus-visible {
+    background-color: rgba(65, 65, 65, 0.8);
+}
+
+.login-input::placeholder {
+    color: rgb(152, 151, 151);
+    font-size: 14px;
+}
+
+.react-responsive-modal-modal {
+    background: rgb(63, 62, 62) !important;
+    max-width: 34rem!important;
+}
+
+
