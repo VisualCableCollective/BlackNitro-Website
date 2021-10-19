@@ -1,5 +1,5 @@
-export function TableBodyCell({children}) {
+export function TableBodyCell({children, className = "border text-center"}) {
     return (
-        <td className="border p-2 text-center">{children}</td>
+        <td className={"p-2 " + className}>{children}</td>
     )
 }

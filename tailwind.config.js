@@ -5,7 +5,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'rubik': ['Rubik']
+        'rubik': ['Rubik'],
+        'roboto': ['Roboto'],
       },
       backgroundColor:{
         'dark-1': '#0d0d0d',

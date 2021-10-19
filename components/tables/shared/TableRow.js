@@ -1,6 +1,6 @@
-export function TableRow({children}) {
+export function TableRow({children, className = ""}) {
     return (
-        <tr>
+        <tr className={className}>
             {children}
         </tr>
     )

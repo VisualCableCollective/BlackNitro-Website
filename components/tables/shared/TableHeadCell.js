@@ -1,5 +1,5 @@
-export function TableHeadCell({children}) {
+export function TableHeadCell({children, className = "border text-center"}) {
     return (
-        <th className="border p-2 text-center">{children}</th>
+        <th className={"p-2 "  + className}>{children}</th>
     )
 }
