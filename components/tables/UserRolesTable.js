@@ -64,8 +64,10 @@ export function UserRolesTable({user, updateUser}) {
                    closeModal={closeRemoveRoleModal}
                    title={"Are you sure you want to remove the '" + selectedRole.name + "' role from '" + user.name + "'?"}
                    description="You are currently trying to remove a role from this user. This removes the role from the user and the user will loose access to the granted permissions by the role. This action cannot be undone!">
-                <DangerButton className="w-full font-bold mr-2" onClick={removeRole} disabled={isRemoving}>Remove Role</DangerButton>
-                <CommonButton className="w-full font-bold ml-2" onClick={closeRemoveRoleModal} disabled={isRemoving}>Cancel</CommonButton>
+                <div className="flex">
+                    <DangerButton className="w-full font-bold mr-2" onClick={removeRole} disabled={isRemoving}>Remove Role</DangerButton>
+                    <CommonButton className="w-full font-bold ml-2" onClick={closeRemoveRoleModal} disabled={isRemoving}>Cancel</CommonButton>
+                </div>
             </Modal>
         </Table>
     )

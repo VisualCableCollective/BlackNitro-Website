@@ -1,7 +1,7 @@
 export class HttpRequestUtil {
     static Request = async (endpoint, method = "GET", authToken = "", body = null) => {
         if (authToken === "") {
-            authToken = localStorage.getItem("authToken");
+            authToken = localStorage.getItem("accessToken");
         }
 
         if (method === "DELETE") {

@@ -87,8 +87,10 @@ export default function RolePage({role}) {
                        closeModal={closeDeleteModal}
                        title="Are you sure you want to delete this role?"
                        description="You are currently trying to delete this role. This removes the role from the system and all users who have been given that role will lose it. This action cannot be undone!">
-                    <DangerButton className="w-full font-bold mr-2" onClick={deleteRole} disabled={isDeletingRole}>Delete</DangerButton>
-                    <CommonButton className="w-full font-bold ml-2" onClick={closeDeleteModal} disabled={isDeletingRole}>Cancel</CommonButton>
+                    <div className={"flex"}>
+                        <DangerButton className="w-full font-bold mr-2" onClick={deleteRole} disabled={isDeletingRole}>Delete</DangerButton>
+                        <CommonButton className="w-full font-bold ml-2" onClick={closeDeleteModal} disabled={isDeletingRole}>Cancel</CommonButton>
+                    </div>
                 </Modal>
             </div>
         </InternalLayout>

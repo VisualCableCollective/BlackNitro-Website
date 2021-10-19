@@ -7,11 +7,29 @@ import {TabPanel} from "../../../components/navigation/Tabs/TabPanel";
 import {Tab} from "../../../components/navigation/Tabs/Tab";
 import {UsersTable} from "../../../components/tables/UsersTable";
 import {RolesTable} from "../../../components/tables/RolesTable";
+import {SuccessButton} from "../../../components/buttons/SuccessButton";
+import {Modal} from "../../../components/modals/Modal";
+import {useState} from "react";
+import {CommonInput} from "../../../components/inputs/CommonInput";
+import {DangerButton} from "../../../components/buttons/DangerButton";
+import {useRouter} from "next/router";
+import {EnsureUserHasPermission} from "../../../middlewares/EnsureUserHasPermission";
 
 export const getServerSideProps = async function ({req, res}) {
     const authResult = await EnsureUserIsAuthenticated(req);
     if (!authResult.success) {
         return authResult.action;
+    }
+
+    const permissionCheckResult = await EnsureUserHasPermission(authResult.user, "show_users");
+
+    if (!permissionCheckResult.hasPermission) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/internal/dashboard"
+            }
+        }
     }
 
     const usersResponse = await HttpRequestUtil.Request("api/users", "GET", req.cookies.access_token);
@@ -29,6 +47,45 @@ export const getServerSideProps = async function ({req, res}) {
 }
 
 export default function UsersPage({users, roles}) {
+    const [isCreateNewRoleModalOpen, setIsCreateNewRoleModalOpen] = useState(false);
+    const [isCreatingRole, setIsCreatingRole] = useState(false);
+
+    const router = useRouter();
+
+    function ToggleCreateNewRoleModal() {
+        if (isCreatingRole) {
+            return;
+        }
+
+        setIsCreateNewRoleModalOpen(!isCreateNewRoleModalOpen);
+    }
+
+    async function CreateRole(event) {
+        await event.preventDefault();
+
+        if (isCreatingRole) {
+            return;
+        }
+
+        setIsCreatingRole(true);
+
+        const response = await HttpRequestUtil.Request(
+            'api/roles/',
+            "POST",
+            "",
+            JSON.stringify({
+                name: event.target.role_name.value,
+            })
+        )
+
+        if (response.status === 201) {
+            await router.reload();
+            return;
+        }
+
+        setIsCreatingRole(false);
+    }
+
     return (
         <InternalLayout>
             <div className="w-full">
@@ -41,6 +98,18 @@ export default function UsersPage({users, roles}) {
                             <UsersTable users={users} />
                         </Tab>
                         <Tab title="Roles">
+                            <SuccessButton className={"float-right mb-2"} onClick={ToggleCreateNewRoleModal}>
+                                Create Role
+                            </SuccessButton>
+                            <Modal title={"Create new role"} isOpen={isCreateNewRoleModalOpen} closeModal={ToggleCreateNewRoleModal} className={"w-full"} >
+                                <form onSubmit={CreateRole}>
+                                    <CommonInput name={"role_name"} placeholder={"Role Name"} className={"w-full"} />
+                                    <div className={"flex mt-4"}>
+                                        <SuccessButton type={"submit"} className="w-full mr-2" disabled={isCreatingRole}>Create</SuccessButton>
+                                        <DangerButton className="w-full ml-2" onClick={ToggleCreateNewRoleModal} disabled={isCreatingRole}>Cancel</DangerButton>
+                                    </div>
+                                </form>
+                            </Modal>
                             <RolesTable roles={roles} />
                         </Tab>
                     </TabPanel>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function CommonButton({children, className, customColor = "", onClick, href = "", disabled = false, disabledStyle = ""}) {
+export function CommonButton({children, className, type, customColor = "", onClick, href = "", disabled = false, disabledStyle = ""}) {
     let color = "hover:bg-blue-500 bg-blue-600";
 
     if(customColor !== "") {
@@ -22,7 +22,7 @@ export function CommonButton({children, className, customColor = "", onClick, hr
     }
 
     return (
-        <button className={"rounded py-2 px-4 " + color + " " + className + " " + disabledStyle} onClick={onClick} disabled={disabled}>
+        <button type={type} className={"rounded py-2 px-4 " + color + " " + className + " " + disabledStyle} onClick={onClick} disabled={disabled}>
             {children}
         </button>
     )

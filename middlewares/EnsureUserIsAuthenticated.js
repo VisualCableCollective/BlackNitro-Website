@@ -1,5 +1,6 @@
 export async function EnsureUserIsAuthenticated(req) {
     const accessToken = req.cookies.access_token;
+    let resJson;
 
     if (!accessToken) {
         return {
@@ -30,7 +31,7 @@ export async function EnsureUserIsAuthenticated(req) {
             }
         }
 
-        const resJson = await res.json();
+        resJson = await res.json();
 
         if (!resJson.id) {
             return {
@@ -46,5 +47,6 @@ export async function EnsureUserIsAuthenticated(req) {
 
     return {
         success: true,
+        user: resJson
     }
 }

@@ -22,7 +22,7 @@ export default function MainNavbar(props) {
                     </Link>
                 </li>
                 <li className="flex relative center">
-                    <Link href="/">
+                    <Link href="/jobs">
                         <a className="main-nav-item h-full relative px-6 py-8 text-sm font-bold uppercase">
                             Jobs
                         </a>

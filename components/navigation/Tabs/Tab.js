@@ -1,6 +1,6 @@
 export function Tab({title, children, defaultActive = false}) {
     return (
-        <div className="py-6">
+        <div className="pt-4">
             {children}
         </div>
     )
