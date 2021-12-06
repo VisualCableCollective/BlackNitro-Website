@@ -30,12 +30,21 @@ export default function Register() {
         )
 
         if (res.status !== 200) {
-            setAlert(
-                <Alert severity="error" className={"mb-8"}>
-                    <AlertTitle>An unknown error occurred!</AlertTitle>
-                    Please report this error and try again later.
-                </Alert>
-            );
+            if (res.status === 422) {
+                const result = await res.json();
+                setAlert(
+                    <Alert severity="error" className={"mb-8"}>
+                        {result.message}
+                    </Alert>
+                );
+            } else {
+                setAlert(
+                    <Alert severity="error" className={"mb-8"}>
+                        <AlertTitle>An unknown error occurred!</AlertTitle>
+                        Please report this error and try again later.
+                    </Alert>
+                );
+            }
             setIsBackDropOpen(false);
             return;
         }
@@ -62,18 +71,22 @@ export default function Register() {
                             <form className="flex flex-col w-full mt-8" onSubmit={handleSubmit}>
                                 <input className="h-14 mb-4 login-input py-3 px-4 rounded-lg focus-visible:outline-none"
                                        name="name"
-                                       placeholder="Name"/>
+                                       placeholder="Name"
+                                       required/>
                                 <input className="h-14 mb-4 login-input py-3 px-4 rounded-lg focus-visible:outline-none"
                                        name="email"
-                                       placeholder="E-Mail"/>
+                                       placeholder="E-Mail"
+                                       required/>
                                 <input className="h-14 mb-4 login-input py-3 px-4 rounded-lg focus-visible:outline-none"
                                        type="password"
                                        name="password"
-                                       placeholder="Password"/>
+                                       placeholder="Password"
+                                       required/>
                                 <input className="h-14 mb-4 login-input py-3 px-4 rounded-lg focus-visible:outline-none"
                                        type="password"
                                        name="confirm_password"
-                                       placeholder="Confirm Password"/>
+                                       placeholder="Confirm Password"
+                                       required/>
                                 <div className="mt-4">
                                     <input className="bg-white text-black rounded-lg py-2 px-4 text-md" type="submit" value="Register" />
                                 </div>
