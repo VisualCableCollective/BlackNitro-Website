@@ -2,7 +2,7 @@ import Link from 'next/link'
 import MainLayout from "../../components/layouts/MainLayout";
 import Cookies from "universal-cookie";
 import {useRouter} from "next/router";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Alert, AlertTitle, Backdrop, CircularProgress} from "@mui/material";
 
 export default function Login() {
@@ -10,6 +10,18 @@ export default function Login() {
 
     const [alert, setAlert] = useState();
     const [isBackDropOpen, setIsBackDropOpen] = useState(false);
+
+    useEffect(() => {
+        const wasRegistrationSuccessful = window.sessionStorage.getItem("wasRegistrationSuccessful");
+        if (wasRegistrationSuccessful && wasRegistrationSuccessful === "true") {
+            setAlert(
+                <Alert severity="success" className={"mb-8"}>
+                    <AlertTitle>Successfully signed up!</AlertTitle>
+                    You can now sign in to your account.
+                </Alert>
+            );
+        }
+    }, [])
 
     async function handleSubmit(event) {
         event.preventDefault();

@@ -2,13 +2,18 @@ import Link from 'next/link'
 import MainLayout from "../../components/layouts/MainLayout";
 import {Alert, AlertTitle, Backdrop, CircularProgress} from "@mui/material";
 import {useState} from "react";
+import {useRouter} from "next/router";
 
 export default function Register() {
+    const router = useRouter();
+
     const [isBackDropOpen, setIsBackDropOpen] = useState(false);
     const [alert, setAlert] = useState();
 
     async function handleSubmit(event) {
         event.preventDefault();
+
+        await window.sessionStorage.setItem("wasRegistrationSuccessful", null);
 
         setAlert(null);
         setIsBackDropOpen(true);
@@ -50,7 +55,11 @@ export default function Register() {
         }
 
         const result = await res.json();
-        console.log(result);
+
+        if (result.success) {
+            await window.sessionStorage.setItem("wasRegistrationSuccessful", "true");
+            await router.push("/auth/login");
+        }
     }
 
     return (
