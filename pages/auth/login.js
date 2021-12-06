@@ -38,7 +38,7 @@ export default function Login() {
         if (res.status !== 200) {
             if (res.status === 500) {
                 setAlert(
-                    <Alert severity="error">
+                    <Alert severity="error" className={"mb-8"}>
                         <AlertTitle>An unknown error occurred!</AlertTitle>
                         Please report this error and try again later.
                     </Alert>
@@ -73,7 +73,7 @@ export default function Login() {
                     <div className="flex items-center">
                         <div>
                             {alert}
-                            <h1 className="text-2xl mt-8">Welcome back!</h1>
+                            <h1 className="text-2xl">Welcome back!</h1>
                             <h1 className="text-opacity-50 text-white">Sign in to your <span className="text-opacity-100 text-white">ArcticRoad Games</span> employee account</h1>
                             <form className="flex flex-col w-full mt-8" onSubmit={handleSubmit}>
                                 <input className="h-14 mb-4 login-input py-3 px-4 rounded-lg focus-visible:outline-none"
