@@ -3,15 +3,19 @@ import MainLayout from "../../components/layouts/MainLayout";
 import Cookies from "universal-cookie";
 import {useRouter} from "next/router";
 import {useState} from "react";
-import {Alert, AlertTitle} from "@mui/material";
+import {Alert, AlertTitle, Backdrop, CircularProgress} from "@mui/material";
 
 export default function Login() {
     const router = useRouter();
 
     const [alert, setAlert] = useState();
+    const [isBackDropOpen, setIsBackDropOpen] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
+
+        setAlert(null);
+        setIsBackDropOpen(true);
 
         const res = await fetch(
             'http://localhost:8000/oauth/token',
@@ -41,7 +45,7 @@ export default function Login() {
                 );
             }
 
-            // show error
+            setIsBackDropOpen(false);
             return;
         }
 
@@ -58,6 +62,12 @@ export default function Login() {
 
     return (
         <MainLayout enableNavbarSpacing={false}>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={isBackDropOpen}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <div className="bg-cover bg-login min-h-screen">
                 <div className="bg-blur-max login-wrapper min-h-screen grid grid-cols-2 px-32">
                     <div className="flex items-center">
