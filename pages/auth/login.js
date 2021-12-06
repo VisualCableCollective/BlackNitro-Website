@@ -34,8 +34,8 @@ export default function Login() {
             {
                 body: JSON.stringify({
                     grant_type: "password",
-                    client_id: 3,
-                    client_secret: "13M4uaytF5B0A49kDbniesPNnelx0jrg62ZHdszH",
+                    client_id: 1,
+                    client_secret: "bKTliVT2q3PYOTmQjT2FUSFgnyK9lYD1f8YRsARE",
                     username: event.target.email.value,
                     password: event.target.password.value,
                     scope: '*'
