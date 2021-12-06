@@ -1,9 +1,17 @@
 import Link from 'next/link'
 import MainLayout from "../../components/layouts/MainLayout";
+import {Alert, AlertTitle, Backdrop, CircularProgress} from "@mui/material";
+import {useState} from "react";
 
 export default function Register() {
+    const [isBackDropOpen, setIsBackDropOpen] = useState(false);
+    const [alert, setAlert] = useState();
+
     async function handleSubmit(event) {
         event.preventDefault();
+
+        setAlert(null);
+        setIsBackDropOpen(true);
 
         const res = await fetch(
             'http://localhost:8000/api/auth/register',
@@ -14,11 +22,23 @@ export default function Register() {
                     password: event.target.password.value
                 }),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 method: 'POST'
             }
         )
+
+        if (res.status !== 200) {
+            setAlert(
+                <Alert severity="error" className={"mb-8"}>
+                    <AlertTitle>An unknown error occurred!</AlertTitle>
+                    Please report this error and try again later.
+                </Alert>
+            );
+            setIsBackDropOpen(false);
+            return;
+        }
 
         const result = await res.json();
         console.log(result);
@@ -26,10 +46,17 @@ export default function Register() {
 
     return (
         <MainLayout enableNavbarSpacing={false}>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={isBackDropOpen}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <div className="bg-cover bg-login min-h-screen">
                 <div className="bg-blur-max login-wrapper min-h-screen grid grid-cols-2 px-32">
                     <div className="flex items-center">
                         <div>
+                            {alert}
                             <h1 className="text-2xl">Welcome at ArcticRoad Games!</h1>
                             <h1 className="text-opacity-50 text-white">Here you are able to create your own employee account</h1>
                             <form className="flex flex-col w-full mt-8" onSubmit={handleSubmit}>
