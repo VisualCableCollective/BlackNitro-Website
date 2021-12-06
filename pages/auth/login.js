@@ -2,9 +2,13 @@ import Link from 'next/link'
 import MainLayout from "../../components/layouts/MainLayout";
 import Cookies from "universal-cookie";
 import {useRouter} from "next/router";
+import {useState} from "react";
+import {Alert, AlertTitle} from "@mui/material";
 
 export default function Login() {
     const router = useRouter();
+
+    const [alert, setAlert] = useState();
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -28,6 +32,15 @@ export default function Login() {
         )
 
         if (res.status !== 200) {
+            if (res.status === 500) {
+                setAlert(
+                    <Alert severity="error">
+                        <AlertTitle>An unknown error occurred!</AlertTitle>
+                        Please report this error and try again later.
+                    </Alert>
+                );
+            }
+
             // show error
             return;
         }
@@ -49,7 +62,8 @@ export default function Login() {
                 <div className="bg-blur-max login-wrapper min-h-screen grid grid-cols-2 px-32">
                     <div className="flex items-center">
                         <div>
-                            <h1 className="text-2xl">Welcome back!</h1>
+                            {alert}
+                            <h1 className="text-2xl mt-8">Welcome back!</h1>
                             <h1 className="text-opacity-50 text-white">Sign in to your <span className="text-opacity-100 text-white">ArcticRoad Games</span> employee account</h1>
                             <form className="flex flex-col w-full mt-8" onSubmit={handleSubmit}>
                                 <input className="h-14 mb-4 login-input py-3 px-4 rounded-lg focus-visible:outline-none"
@@ -63,7 +77,7 @@ export default function Login() {
                                     <a className="text-white text-opacity-60 hover:text-opacity-100 pr-4 border-r-2 border-gray-500 text-md" type="submit" href={"/"}>
                                         Forgot Password
                                     </a>
-                                    <input className="bg-white text-black rounded-lg py-2 mx-4 px-4 text-md" type="submit" value="Sign In" />
+                                    <input className="bg-white text-black rounded-lg py-2 mx-4 px-4 text-md cursor-pointer" type="submit" value="Sign In" />
                                 </div>
                             </form>
                         </div>

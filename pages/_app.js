@@ -3,8 +3,20 @@ import '../styles/app.css';
 import 'react-responsive-modal/styles.css';
 
 import Head from "next/head";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {useMemo} from "react";
 
 function MyApp({ Component, pageProps }) {
+    const theme = useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: 'dark',
+                },
+            }),
+        [],
+    );
+
   return (
       <div className="font-roboto text-white bg-dark-1 box-border min-h-screen">
         <Head>
@@ -19,7 +31,10 @@ function MyApp({ Component, pageProps }) {
               rel="stylesheet"/>
             <title>Arctic Road Games</title>
         </Head>
-        <Component {...pageProps} />
+          <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Component {...pageProps} />
+          </ThemeProvider >
       </div>
   )
 }
